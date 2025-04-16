@@ -1,3 +1,6 @@
+--Colorscheme plugin,
+--Todo: add a colo
+
 return {
   {
     'Shatur/neovim-ayu',
