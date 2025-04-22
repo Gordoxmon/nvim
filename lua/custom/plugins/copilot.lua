@@ -14,6 +14,12 @@
 ----------------------------------------------------
 
 -- Open Copilot Chat
+--
+
+vim.keymap.set('n', '<leader>C', '', {
+  desc = 'Copilot',
+})
+
 vim.keymap.set('n', '<leader>Cc', '<cmd>CopilotChat<CR>', {
   desc = 'Open Copilot Chat',
 })
