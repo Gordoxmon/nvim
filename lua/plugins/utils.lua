@@ -108,4 +108,113 @@ return {
       },
     },
   },
+
+  -- Alpha Dashboard
+  {
+    "goolord/alpha-nvim",
+    event = "VimEnter",
+    config = function()
+      local alpha = require("alpha")
+      local dashboard = require("alpha.themes.dashboard")
+
+      -- Hollow Knight ASCII art with colors
+      local ascii_art = {
+        "",
+        "                                                                                                                      ",
+        "                                                                                                                      ",
+        "                                                                                                                      ",
+        "                                                 .o                                                                   ",
+        "                                               'kK:                                                                   ",
+        "                                             ,ON0c                                                                    ",
+        "                                           'OMW0;                                       .ll.                          ",
+        "                                          ,MMMX,               .o                       .kx..                         ",
+        "                                        'kMMMX.              'kWX                       .kx..                         ",
+        "                                       .OMMMX.              'OWk                        .kx..                         ",
+        "                                      kNMMMWk              xWMXl                        .dx,.                         ",
+        "                                    .dWMMMWO             .dWMWl                         ..o0.                         ",
+        "                                   'WMMMMWx            .dMMMWk'                    .lKcKo,o0..                        ",
+        "                                  :NMMMMWK:           .dMMMWk'                   .'o0; ;0c.lX.                        ",
+        "                                 :XMMMMMXc          .dXMMMW0.                 ..dKX0OKdKO;.:W..                       ",
+        "                                :KMMMMMN,          oWMMMMMX          .dKc  'coXXK0o. ;;;  .:N'.                       ",
+        "                                0MMMMMWx.       .oWMMMMMW0       ,;kKKXXXKKKKOcc           .,N..                      ",
+        "                               OWMMMMMX.     .k0NMMMMMMXo.  ..:kkXXXXXXXXXKo'.             .'W'.                      ",
+        "                              kWMMMMMMWk,.'xkMMMMMMMMMo.  l.:cdKXX000KK0k;,'.              .'X;.                      ",
+        "                             .MMMMMMMMMMMMMMMMMMMMMMMx'.,,,;;;;;oo,,,;,          ..........',:Wl..                    ",
+        "                            'WMMMMMMMMMMMMMMMMMMMMMWOc,,,,,,,,,,;;:::::,...;lllooxxxxxxxxxxxkOWKxooll..               ",
+        "                           .lN..xNMMMMMMMMMMMMMMMWOl;;,,,,,,;::clldxxxk0Oxxl;;;;,............'0xlc;;;dc.              ",
+        "                           cK,   dMMMMMMNXNMMMMMWO:;,,,,;;cllxOO00xdxxd:...                  ..Ko..  .;ol.            ",
+        "                           ck    dMMMWol. .oMMMOl;;;,,,,:ckOOdllcccc;;,,.                    ..Ko..    .,dd.          ",
+        "                           cK,  'OMNd      :WKo,,;;;;;;;,,,;;;;:::;;;;;;;'.                   .dd;.     .,Ol.         ",
+        "                         ..lNWOOWMMK.   .:0Xo:,,;;;,,;;;;;;;;;,,,,;;;;;;;;'                   ..kx.      .'W..        ",
+        "       'o.           .lllKKKKO::KWWWNooodxo;;,;;;;;;;,,,',;;;;;;;;,,,,;;;'.                    .kk..     .,N..        ",
+        "       ,xo.      ;:kXXXKl:.       ...,:::;,,,;;;;;;;;;;;;;,,,,,;;;;;;;,,.                      .cxl.    .;N'.         ",
+        "        .,dl;,:Okddo;..               .'',;;.;;;;;;,,,;;;;;;;;,,,;;;;;;;;'                      .oK.    .:N..         ",
+        "        ..x0NXd,.                    .,;,,;;,,;;;;;;,,,,;;;;;;;;';;;;;;;;;'                     .oK..  .:k:.          ",
+        "       .;;,.;dl..                   ';;;;,';;;',;;;;;;;;,,;;;;;;;,';;;;;;'.                     .oK'...cxc.           ",
+        "             .,xoo..               ';;;;;,';;;;',;;;;;;;;,,;;;;;;;.;;;;'.                        .:N''lxl.            ",
+        "               .',ol,..            ';;;;;,,;;;;;,';;;;;;;;',;;;;;;;','.                          .;W;ok:.             ",
+        "                  .,lxd,.          .;;;;'';;;;;;,';;;;;;;;;',;;;;;;;'.                           .:WlK;.              ",
+        "                     ..ldx;.        .     ':;;;;,';;;;;;;;;;',;;;;;,.                           .,lWk,.               ",
+        "                        ..ldlc..          ':;;;;..,,;;;;;;,..',,,,.                           ..lkklW,.               ",
+        "                           .;:x::'.        ....     .,;;,.                                  .'cxo:,;M'.               ",
+        "                              .cldxo''..                                                  .':ko;...,M'.               ",
+        "  .dddddo.....                   ..'ddxd;...                                            .:dxd'.   .,W'.               ",
+        "  .kkc;;;xxxxdlll....                ..'lxxxll'..                                    ..cd:...    .;X,.                ",
+        "   .,ooc:....';;;xxxxd:::;...             ..;;dxxd:::;....                        ':cxx:.        .;N..                ",
+        "     .'clxx;'.........cclldxxd,'''.            ..'cccldxxxx,,''...           .'''ooc:..          .cK.                 ",
+        "         ..ldddo.....    .....dddddc      .            ....odddxxddd;'''',,lxxxxx,.             .oK..                 ",
+        "             ..'xxxollll...........'..   'c.                ....,,''lxONOOOOkxddol,............:dc.                   ",
+        "                 ..',;;;dxxxxd:::::::c:,. .:::::;;;;:;;;;;:::::cxxx'  .,'..,;;;;;;lxxxxxxxxxxxx:.                     ",
+        "                         .....cccccccccl'..llllllllllllllllcccc:....               ............                       ",
+        "                                                                                                                      ",
+        "                                                                                                                      ",
+        "                                                                                                                      ",
+        "",
+      }
+
+
+      -- Set up the dashboard with simple coloring
+        dashboard.section.header.val = ascii_art
+            -- Configure buttons
+      dashboard.section.buttons.val = {
+        dashboard.button("f", "📁 Find File", ":FzfLua files<CR>"),
+        dashboard.button("r", "📋 Recent Files", ":FzfLua oldfiles<CR>"),
+        dashboard.button("g", "🔍 Grep", ":FzfLua live_grep<CR>"),
+        dashboard.button("c", "⚙️  Config", ":e ~/.config/nvim/init.lua<CR>"),
+        dashboard.button("s", "💾 Restore Session", [[:lua require("persistence").load()<cr>]]),
+        dashboard.button("l", "📦 Lazy", ":Lazy<CR>"),
+        dashboard.button("q", "🚪 Quit", ":qa<CR>"),
+      }
+
+      -- Add some footer text
+      dashboard.section.footer.val = {
+        "",
+        "    ╔══════════════════════════════════════════════════════════════╗",
+        "    ╚══════════════════════════════════════════════════════════════╝",
+        "",
+      }
+
+      -- Set up the dashboard
+      alpha.setup(dashboard.opts)
+
+      -- Auto-hide the dashboard when opening a file
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "AlphaReady",
+        desc = "disable status and tabline for alpha",
+        callback = function()
+          vim.opt.laststatus = 0
+          vim.opt.showtabline = 0
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("BufUnload", {
+        pattern = "<buffer>",
+        desc = "enable status and tabline after alpha",
+        callback = function()
+          vim.opt.laststatus = 3
+          vim.opt.showtabline = 2
+        end,
+      })
+    end,
+  },
 }
