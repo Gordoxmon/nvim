@@ -99,3 +99,26 @@ opt.foldlevel = 99             -- High fold level
 ---------------------------------------------------------------------
 -- Session
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+
+---------------------------------------------------------------------
+-- Safety: keep normal buffers editable
+-- Some plugins open non-editable windows; if you paste there, you get E21.
+-- Ensure real file buffers stay modifiable and not readonly when entered.
+vim.api.nvim_create_autocmd("BufEnter", {
+    group = vim.api.nvim_create_augroup("EnsureModifiable", { clear = true }),
+    pattern = "*",
+    callback = function(args)
+        local bufopts = vim.bo[args.buf]
+        if bufopts.buftype == "" then
+            -- Only touch normal file buffers
+            bufopts.modifiable = true
+            bufopts.readonly = false
+        end
+    end,
+})
+
+-- Helper: quickly fix current buffer if needed
+vim.api.nvim_create_user_command("ForceModifiable", function()
+    vim.bo.modifiable = true
+    vim.bo.readonly = false
+end, { desc = "Make current buffer modifiable and not readonly" })

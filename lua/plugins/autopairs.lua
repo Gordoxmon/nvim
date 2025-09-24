@@ -24,12 +24,12 @@ return {
     },
     config = function(_, opts)
       require("nvim-autopairs").setup(opts)
-      
-      -- Integration with blink.cmp
-      local blink_cmp = require('blink.cmp')
-      local autopairs = require('nvim-autopairs.completion.cmp')
-      
-      blink_cmp.on_confirm_done(autopairs.on_confirm_done())
+
+      -- ❌ Remove cmp integration: it's for nvim-cmp only.
+      -- local blink_cmp = require('blink.cmp')
+      -- local autopairs = require('nvim-autopairs.completion.cmp')
+      -- blink_cmp.on_confirm_done(autopairs.on_confirm_done())
     end,
   },
 }
+
